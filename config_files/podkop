@@ -36,7 +36,9 @@ config section 'main'
 	option user_domains_text 'myip.com
 dbtorrent.games
 metasirus.su
-cdn.scourge.tech'
+cdn.scourge.tech
+lampa.mx
+lampishe.cc'
 	list community_lists 'geoblock'
 	list community_lists 'block'
 	list community_lists 'meta'
