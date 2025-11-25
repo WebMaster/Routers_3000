@@ -3,7 +3,35 @@
 #chmod +x /tmp/iau.sh && /tmp/iau.sh
 
 opkg update
+
 opkg install sing-box-tiny
+/etc/init.d/sing-box-tiny stop
+cat <<EOF > /etc/sing-box/config.json
+{
+	"log": {
+	"disabled": true,
+	"level": "error"
+},
+"inbounds": [
+	{
+	"type": "tproxy",
+	"listen": "::",
+	"listen_port": 1100,
+	"sniff": false
+	}
+],
+"outbounds": [
+	{
+	"type": "http",
+	"server": "127.0.0.1",
+	"server_port": 18080
+	}
+],
+"route": {
+	"auto_detect_interface": true
+}
+}
+EOF
 
 URL="https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main"
 
@@ -18,7 +46,9 @@ else
 	[ -f /etc/config/dhcp-opkg ] && cp /etc/config/dhcp /etc/config/dhcp-old && mv /etc/config/dhcp-opkg /etc/config/dhcp
 fi
 
-echo "--- [opera-proxy] start install or update.."
+wget -O "/etc/config/dhcp" "$URL/config_files/dhcp"
+
+printf "\033[32;1m--- [opera-proxy] start install or update..\033[0m\n"
 /etc/init.d/opera-proxy stop
 DOWNLOAD_DIR="/tmp/d_opera-proxy"
 mkdir -p "$DOWNLOAD_DIR"
@@ -31,10 +61,10 @@ do
     rm -f $DOWNLOAD_DIR/$file
 done
 /etc/init.d/opera-proxy start
-echo "--- [opera-proxy] all completed.."
+printf "\033[32;1m--- [opera-proxy] all completed..\033[0m\n"
 
 
-echo "--- [youtubeUnblock] start install or update.."
+printf "\033[32;1m--- [youtubeUnblock] start install or update..\033[0m\n"
 /etc/init.d/youtubeUnblock stop
 opkg install kmod-nfnetlink-queue kmod-nft-queue kmod-nf-conntrack
 DOWNLOAD_DIR="/tmp/d_youtubeUnblock"
@@ -50,10 +80,28 @@ do
 done
 wget -O "/etc/config/youtubeUnblock" "$URL/config_files/youtubeUnblock"
 /etc/init.d/youtubeUnblock start
-echo "--- [youtubeUnblock] all completed.."
+printf "\033[32;1m--- [youtubeUnblock] all completed..\033[0m\n"
 
 
-echo "--- [Stubby] start install or update.."
+printf "\033[32;1m--- [Dns-failsafe-proxy] start install or update..\033[0m\n"
+NAME="dns-failsafe-proxy"
+DOWNLOAD_DIR="/tmp/d_$NAME"
+/etc/init.d/$NAME stop
+mkdir -p "$DOWNLOAD_DIR"
+ipk_files="luci-app-dns-failsafe-proxy_1.0.6_all.ipk"
+for file in $ipk_files
+do
+	echo "Download $file..."
+	wget -q -O "$DOWNLOAD_DIR/$file" "$URL/ipk/$NAME/$file"
+    opkg install $DOWNLOAD_DIR/$file
+    rm -f $DOWNLOAD_DIR/$file
+done
+wget -O "/etc/config/$NAME" "$URL/config_files/$NAME"
+/etc/init.d/$NAME start
+printf "\033[32;1m--- [Dns-failsafe-proxy] all completed..\033[0m\n"
+
+
+printf "\033[32;1m--- [Stubby] start install or update..\033[0m\n"
 /etc/init.d/stubby stop
 DOWNLOAD_DIR="/tmp/d_stubby"
 mkdir -p "$DOWNLOAD_DIR"
@@ -68,10 +116,10 @@ do
 done
 wget -O "/etc/config/stubby" "$URL/config_files/stubby"
 /etc/init.d/stubby start
-echo "--- [Stubby] all completed.."
+printf "\033[32;1m--- [Stubby] all completed..\033[0m\n"
 
 
-echo "--- [Doh-proxy] start install or update.."
+printf "\033[32;1m--- [Doh-proxy] start install or update..\033[0m\n"
 /etc/init.d/doh-proxy stop
 DOWNLOAD_DIR="/tmp/d_doh-proxy"
 mkdir -p "$DOWNLOAD_DIR"
@@ -87,10 +135,10 @@ do
 done
 wget -O "/etc/config/doh-proxy" "$URL/config_files/doh-proxy"
 /etc/init.d/doh-proxy start
-echo "--- [Doh-proxy] all completed.."
+printf "\033[32;1m--- [Doh-proxy] all completed..\033[0m\n"
 
 
-echo "--- [Podkop] start install or update.."
+printf "\033[32;1m--- [Podkop] start install or update..\033[0m\n"
 /etc/init.d/podkop stop
 DOWNLOAD_DIR="/tmp/d_podkop"
 mkdir -p "$DOWNLOAD_DIR"
@@ -106,7 +154,7 @@ do
 done
 wget -O "/etc/config/podkop" "$URL/config_files/podkop"
 /etc/init.d/podkop start
-echo "--- [Podkop] all completed.."
+printf "\033[32;1m--- [Podkop] all completed..\033[0m\n"
 
 
 

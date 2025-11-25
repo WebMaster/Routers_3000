@@ -48,13 +48,3 @@ lampishe.cc'
 	list community_lists 'google_ai'
 	list community_lists 'telegram'
 
-config section 'VPN'
-	option connection_type 'vpn'
-	option interface 'awg10'
-	option domain_resolver_enabled '0'
-	option user_domain_list_type 'text'
-	option user_domains_text 'myip.com'
-	option user_subnet_list_type 'disabled'
-	option mixed_proxy_enabled '0'
-	list community_lists 'discord'
-
