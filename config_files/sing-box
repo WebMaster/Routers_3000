@@ -1,0 +1,16 @@
+
+config sing-box 'main'
+	option enabled '1'
+	option conffile '/etc/sing-box/config.json'
+	option workdir '/usr/share/sing-box'
+	option log_stderr '1'
+	option user 'root'
+	list ifaces 'wan'
+	list ifaces 'wan2'
+	list ifaces 'wan6'
+	list ifaces 'wwan'
+	list ifaces 'wwan0'
+	list ifaces 'modem'
+	list ifaces 'l2tp'
+	list ifaces 'pptp'
+
