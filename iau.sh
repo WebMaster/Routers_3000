@@ -80,6 +80,13 @@ do
 done
 wget -O "/etc/config/youtubeUnblock" "$URL/config_files/youtubeUnblock"
 /etc/init.d/youtubeUnblock start
+cronTask="0 4 * * * service youtubeUnblock restart"
+str=$(grep -i "0 4 \* \* \* service youtubeUnblock restart" /etc/crontabs/root)
+if [ -z "$str" ] 
+then
+    echo "Add cron task auto reboot service youtubeUnblock..."
+    echo "$cronTask" >> /etc/crontabs/root
+fi
 printf "\033[32;1m--- [youtubeUnblock] all completed..\033[0m\n"
 
 
@@ -158,16 +165,14 @@ printf "\033[32;1m--- [Podkop] all completed..\033[0m\n"
 
 
 
-
-
 # Добавляем задание на выполнение скрипта каждый день в 4часа 10минут
-#cronTask="*/10 * * * * sh <(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/install_and_update.sh) 2>&1 | tee /root/run.log"
-cronTask="10 4 * * * sh <(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/install_and_update.sh) 2>&1 | tee /root/run.log"
-str=$(grep -i "\*\/10 \* \* \* \* sh \<\(wget --no-check-certificate -q -O - https:\/\/raw\.githubusercontent\.com\/WebMaster\/Routers_3000\/refs\/heads\/main\/install_and_update\.sh\) 2\>\&1 \| tee \/root\/run\.log" /etc/crontabs/root)
-str=$(grep -i "10 4 \* \* \* sh \<\(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/install_and_update.sh\) 2\>&1 \| tee /root/run.log" /etc/crontabs/root)
+#cronTask="*/10 * * * * sh <(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/iau.sh) 2>&1 | tee /root/run.log"
+cronTask="10 4 * * * sh <(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/iau.sh) 2>&1 | tee /root/run.log"
+str=$(grep -i "\*\/10 \* \* \* \* sh \<\(wget --no-check-certificate -q -O - https:\/\/raw\.githubusercontent\.com\/WebMaster\/Routers_3000\/refs\/heads\/main\/iau\.sh\) 2\>\&1 \| tee \/root\/run\.log" /etc/crontabs/root)
+str=$(grep -i "10 4 \* \* \* sh \<\(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/iau.sh\) 2\>&1 \| tee /root/run.log" /etc/crontabs/root)
 if [ -z "$str" ] 
 then
-    echo "Add cron task auto run script install_and_update.sh"
+    echo "Add cron task auto run script iau.sh"
     echo "$cronTask" >> /etc/crontabs/root
 fi
 
