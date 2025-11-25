@@ -60,7 +60,6 @@ do
     opkg install $DOWNLOAD_DIR/$file
     rm -f $DOWNLOAD_DIR/$file
 done
-/etc/init.d/opera-proxy start
 printf "\033[32;1m--- [opera-proxy] all completed..\033[0m\n"
 
 
@@ -104,7 +103,6 @@ do
     rm -f $DOWNLOAD_DIR/$file
 done
 wget -O "/etc/config/$NAME" "$URL/config_files/$NAME"
-/etc/init.d/$NAME start
 printf "\033[32;1m--- [Dns-failsafe-proxy] all completed..\033[0m\n"
 
 
@@ -122,7 +120,6 @@ do
     rm -f $DOWNLOAD_DIR/$file
 done
 wget -O "/etc/config/stubby" "$URL/config_files/stubby"
-/etc/init.d/stubby start
 printf "\033[32;1m--- [Stubby] all completed..\033[0m\n"
 
 
@@ -141,7 +138,6 @@ do
     rm -f $DOWNLOAD_DIR/$file
 done
 wget -O "/etc/config/doh-proxy" "$URL/config_files/doh-proxy"
-/etc/init.d/doh-proxy start
 printf "\033[32;1m--- [Doh-proxy] all completed..\033[0m\n"
 
 
@@ -160,9 +156,7 @@ do
     rm -f $DOWNLOAD_DIR/$file
 done
 wget -O "/etc/config/podkop" "$URL/config_files/podkop"
-/etc/init.d/podkop start
 printf "\033[32;1m--- [Podkop] all completed..\033[0m\n"
-
 
 
 # Добавляем задание на выполнение скрипта каждый день в 4часа 10минут
