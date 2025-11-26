@@ -66,11 +66,8 @@ if [ "$INSTALLED_VERSION" != "$REQUIRED_VERSION" ]; then
         opkg install $DOWNLOAD_DIR/$file
         rm -f $DOWNLOAD_DIR/$file
     done
-    wget -O "/etc/config/$PACKAGE" "$URL/config_files/$PACKAGE"
 else
     echo "Opera-proxy install version $INSTALLED_VERSION not need update..."
-    echo "Opera-proxy config update..."
-    wget -O "/etc/config/$PACKAGE" "$URL/config_files/$PACKAGE"
 fi
 printf "\033[32;1m--- [Opera-proxy] all completed..\033[0m\n"
 
