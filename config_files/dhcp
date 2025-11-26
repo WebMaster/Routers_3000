@@ -18,6 +18,7 @@ config dnsmasq
 	option filter_aaaa '1'
 	option strictorder '1'
 	list server '127.0.0.1#5359'
+	option noresolv '1'
 
 config dhcp 'lan'
 	option interface 'lan'
