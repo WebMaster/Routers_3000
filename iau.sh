@@ -88,7 +88,7 @@ if [ "$INSTALLED_VERSION" != "$REQUIRED_VERSION" ]; then
     for file in $ipk_files
     do
         echo "youtubeUnblock download $file..."
-        wget -q -O "$DOWNLOAD_DIR/$file" "$URL/ipk/dns-failsafe-proxy/$file"
+        wget -q -O "$DOWNLOAD_DIR/$file" "$URL/ipk/$PACKAGE/$file"
         opkg install $DOWNLOAD_DIR/$file
         rm -f $DOWNLOAD_DIR/$file
     done
@@ -109,7 +109,7 @@ printf "\033[32;1m--- [youtubeUnblock] all completed..\033[0m\n"
 
 
 
-printf "\033[32;1m--- [Zapret] start install or update..\033[0m\n"
+printf "\n\033[32;1m--- [Zapret] start install or update..\033[0m\n"
 /etc/init.d/zapret stop
 opkg remove --force-removal-of-dependent-packages "zapret" "luci-app-zapret"
 #NAME="zapret"
