@@ -8,7 +8,7 @@ config youtubeUnblock 'youtubeUnblock'
 
 config section
 	option name 'Youtube'
-	option enabled '1'
+	option enabled '0'
 	option tls_enabled '1'
 	option fake_sni '1'
 	option faking_strategy 'tcp_check'
@@ -19,7 +19,7 @@ config section
 	option synfake '0'
 	option sni_detection 'parse'
 	option all_domains '0'
-	option quic_drop '0'
+	option quic_drop '1'
 	list sni_domains 'youtube.com'
 	list sni_domains 'ytimg.com'
 	list sni_domains 'yting.com'
@@ -38,12 +38,6 @@ config section
 	list sni_domains 'jnn-pa.googleapis.com'
 	list sni_domains 'returnyoutubedislikeapi.com'
 	list sni_domains 'yt3.googleusercontent.com'
-	option udp_mode 'fake'
-	option udp_faking_strategy 'none'
-	option udp_fake_seq_len '6'
-	option udp_fake_len '64'
-	option udp_stun_filter '0'
-	option udp_filter_quic 'all'
 
 config section
 	option name 'CallsWhatsAppTelegram'

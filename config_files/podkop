@@ -17,6 +17,7 @@ config settings 'settings'
 	option shutdown_correctly '0'
 	option download_lists_via_proxy_section 'main'
 	list source_network_interfaces 'br-lan'
+	list source_network_interfaces 'tailscale0'
 
 config section 'main'
 	option connection_type 'proxy'
@@ -46,4 +47,5 @@ lampishe.cc'
 	list community_lists 'tiktok'
 	list community_lists 'google_ai'
 	list community_lists 'telegram'
+	list community_lists 'youtube'
 
