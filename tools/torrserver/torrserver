@@ -1,0 +1,17 @@
+#!/bin/sh /etc/rc.common
+# Скрипт запуска Torrent сервера
+# chmod +x /etc/init.d/torrserver
+# chmod +x /mnt/sda1/torrserv/TorrServer-linux-arm64
+# service torrserver restart
+# http://192.168.1.1:8090/
+
+START=95
+STOP=10
+USE_PROCD=1
+
+start_service() {
+    procd_open_instance
+    procd_set_param command /mnt/sda1/torrserv/TorrServer-linux-arm64 -d /mnt/sda1/torrserv -p 8090 --logpath /tmp/torrserver.log
+    procd_set_param respawn
+    procd_close_instance
+}
