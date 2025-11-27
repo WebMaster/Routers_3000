@@ -2,7 +2,68 @@
 
 #chmod +x /tmp/000.sh && /tmp/000.sh
 
+URL="https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main"
+
 opkg update
+
+if opkg list-installed | grep -q transmission-daemon; then
+	echo "transmission already installed..."
+else
+	echo "Installed transmission..."
+    opkg install kmod-usb-storage block-mount kmod-fs-ntfs3 luci-app-ksmbd
+    #wsdd2
+    ksmbd.adduser -a smbuser -p user
+    # /etc/config/fstab
+    uci add fstab mount # =cfg024d78
+    uci set fstab.@mount[-1].enabled='1'
+    uci set fstab.@mount[-1].uuid='44f90eff-65d8-4c0d-9fbd-8adb2535ce2e'
+    uci set fstab.@mount[-1].target='/mnt/sda1'
+    uci commit fstab
+    # /etc/config/ksmbd
+    uci add ksmbd share # =cfg02b538
+    uci set ksmbd.cfg013b09.interface='lan'
+    uci set ksmbd.@share[-1].name='Share'
+    uci set ksmbd.@share[-1].path='/mnt/sda1/transmission/done'
+    uci set ksmbd.@share[-1].read_only='no'
+    uci set ksmbd.@share[-1].users='smbuser'
+    uci set ksmbd.@share[-1].guest_ok='no'
+    uci set ksmbd.@share[-1].create_mask='0666'
+    uci set ksmbd.@share[-1].dir_mask='0777'
+    uci commit ksmbd
+    opkg install transmission-daemon transmission-web luci-app-transmission
+    # /etc/config/transmission
+    uci del transmission.cfg015f8f.alt_speed_up
+    uci del transmission.cfg015f8f.alt_speed_down
+    uci del transmission.cfg015f8f.speed_limit_down
+    uci del transmission.cfg015f8f.speed_limit_up
+    uci del transmission.cfg015f8f.incomplete_dir
+    uci del transmission.cfg015f8f.prefetch_enabled
+    uci del transmission.cfg015f8f.peer_port_random_high
+    uci del transmission.cfg015f8f.peer_port_random_low
+    uci del transmission.cfg015f8f.seed_queue_size
+    uci del transmission.cfg015f8f.rpc_host_whitelist
+    uci del transmission.cfg015f8f.rpc_whitelist
+    uci del transmission.cfg015f8f.alt_speed_time_begin
+    uci del transmission.cfg015f8f.alt_speed_time_end
+    uci del transmission.cfg015f8f.alt_speed_time_day
+    uci del transmission.cfg015f8f.idle_seeding_limit
+    uci set transmission.cfg015f8f.enabled='1'
+    uci set transmission.cfg015f8f.config_dir='/mnt/sda1/transmission'
+    uci set transmission.cfg015f8f.download_dir='/mnt/sda1/transmission/done'
+    uci set transmission.cfg015f8f.preallocation='0'
+    uci set transmission.cfg015f8f.download_queue_size='2'
+    uci set transmission.cfg015f8f.ratio_limit_enabled='true'
+    uci set transmission.cfg015f8f.ratio_limit='1.0000'
+    uci commit transmission
+fi
+
+if [ -f "/etc/init.d/torrserver" ]; then
+	echo "TorrServer installed."
+else
+    wget -O "/etc/init.d/torrserver" "$URL/tools/torrserver/torrserver"
+    chmod +x "/etc/init.d/torrserver"
+    chmod +x "/mnt/sda1/torrserv/TorrServer-linux-arm64"
+fi
 
 opkg install sing-box-tiny
 /etc/init.d/sing-box-tiny stop
@@ -33,7 +94,6 @@ cat <<EOF > /etc/sing-box/config.json
 }
 EOF
 
-URL="https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main"
 
 
 if opkg list-installed | grep -q dnsmasq-full; then
