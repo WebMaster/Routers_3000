@@ -96,7 +96,7 @@ if [ "$INSTALLED_VERSION" != "$REQUIRED_VERSION" ]; then
 else
     echo "youtubeUnblock install version $INSTALLED_VERSION not need update..."
     echo "youtubeUnblock config update..."
-    wget -O "/etc/config/$PACKAGE" "$URL/config_files/youtubeUnblockYouTubeDiscord"
+    wget -O "/etc/config/$PACKAGE" "$URL/config_files/youtubeUnblockNoYouTubeNoDiscord"
 fi
 cronTask="0 4 * * * service youtubeUnblock restart"
 str=$(grep -i "0 4 \* \* \* service youtubeUnblock restart" /etc/crontabs/root)
@@ -248,7 +248,7 @@ else
     echo "Podkop install version $INSTALLED_VERSION not need update..."
 fi
 echo "Podkop config update..."
-wget -O "/etc/config/$PACKAGE" "$URL/config_files/podkopNoYouTube"
+wget -O "/etc/config/$PACKAGE" "$URL/config_files/podkopProxyYouTubeVPNDiscord"
 printf "\033[32;1m--- [Podkop] all completed..\033[0m\n"
 
 
