@@ -78,7 +78,6 @@ config section
 
 config section
 	option name 'Discord'
-	option enabled '0'
 	option tls_enabled '1'
 	option fake_sni '1'
 	option faking_strategy 'pastseq'
@@ -100,7 +99,7 @@ config section
 	option udp_fake_seq_len '6'
 	option udp_fake_len '64'
 	option udp_filter_quic 'disabled'
-	option enabled '1'
+	option enabled '0'
 	option udp_stun_filter '0'
 	list sni_domains 'discord.gg'
 	list sni_domains 'discord.com'
