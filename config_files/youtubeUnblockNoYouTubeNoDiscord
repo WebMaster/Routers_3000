@@ -78,7 +78,7 @@ config section
 
 config section
 	option name 'Discord'
-    option enabled '0'
+	option enabled '0'
 	option tls_enabled '1'
 	option fake_sni '1'
 	option faking_strategy 'pastseq'
