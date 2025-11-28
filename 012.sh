@@ -92,12 +92,13 @@ if [ "$INSTALLED_VERSION" != "$REQUIRED_VERSION" ]; then
         opkg install $DOWNLOAD_DIR/$file
         rm -f $DOWNLOAD_DIR/$file
     done
-    wget -O "/etc/config/$PACKAGE" "$URL/config_files/$PACKAGE"
 else
     echo "youtubeUnblock install version $INSTALLED_VERSION not need update..."
-    echo "youtubeUnblock config update..."
-    wget -O "/etc/config/$PACKAGE" "$URL/config_files/youtubeUnblockYouTubeDiscord"
 fi
+
+echo "youtubeUnblock config update..."
+wget -O "/etc/config/$PACKAGE" "$URL/config_files/youtubeUnblockYouTubeNoDiscord"
+
 cronTask="0 4 * * * service youtubeUnblock restart"
 str=$(grep -i "0 4 \* \* \* service youtubeUnblock restart" /etc/crontabs/root)
 if [ -z "$str" ] 
