@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#chmod +x /tmp/008.sh && /tmp/008.sh
+#chmod +x /tmp/014.sh && /tmp/014.sh
 
 opkg update
 
@@ -96,7 +96,7 @@ if [ "$INSTALLED_VERSION" != "$REQUIRED_VERSION" ]; then
 else
     echo "youtubeUnblock install version $INSTALLED_VERSION not need update..."
     echo "youtubeUnblock config update..."
-    wget -O "/etc/config/$PACKAGE" "$URL/config_files/youtubeUnblockNoYouTubeNoDiscord"
+    wget -O "/etc/config/$PACKAGE" "$URL/config_files/youtubeUnblockYouTubeDiscord"
 fi
 cronTask="0 4 * * * service youtubeUnblock restart"
 str=$(grep -i "0 4 \* \* \* service youtubeUnblock restart" /etc/crontabs/root)
@@ -276,11 +276,11 @@ then
 fi
 
 
-cronTask="10 4 * * * sh <(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/008.sh) 2>&1 | tee /root/run.log"
-str=$(grep -i "10 4 \* \* \* sh \<\(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/008.sh\) 2\>&1 \| tee /root/run.log" /etc/crontabs/root)
+cronTask="10 4 * * * sh <(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/014.sh) 2>&1 | tee /root/run.log"
+str=$(grep -i "10 4 \* \* \* sh \<\(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/014.sh\) 2\>&1 \| tee /root/run.log" /etc/crontabs/root)
 if [ -z "$str" ] 
 then
-    echo "Add cron task auto run script 008.sh"
+    echo "Add cron task auto run script 014.sh"
     echo "$cronTask" >> /etc/crontabs/root
 fi
 
