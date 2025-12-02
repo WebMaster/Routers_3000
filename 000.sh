@@ -1,5 +1,5 @@
 #!/bin/sh
-
+ 
 #chmod +x /tmp/000.sh && /tmp/000.sh
 
 URL="https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main"

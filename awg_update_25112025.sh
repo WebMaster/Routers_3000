@@ -1,11 +1,50 @@
 #!/bin/sh
 
-#chmod +x /root/awg_update_25112025.sh && /root/awg_update_25112025.sh
+#chmod +x /tmp/awg_update_25112025.sh && /tmp/awg_update_25112025.sh
 
+URL="https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main"
+
+opkg install coreutils-base64
+opkg install jq
+opkg install curl
+
+service dnsmasq restart
+service odhcpd restart
+service doh-proxy restart
+service podkop stop
+service youtubeUnblock restart
+
+printf "\n\033[32;1m--- [AmneziaWG] start install or update..\033[0m\n"
+PACKAGE="kmod-amneziawg"
+REQUIRED_VERSION="6.6.110.1.0.20251005-r1"
+INSTALLED_VERSION=$(opkg list-installed | grep "^$PACKAGE" | cut -d ' ' -f 3)
+if [ "$INSTALLED_VERSION" != "$REQUIRED_VERSION" ]; then
+    /etc/init.d/$PACKAGE stop
+    #opkg remove --force-removal-of-dependent-packages $PACKAGE
+    DOWNLOAD_DIR="/tmp/d_amneziawg"
+    mkdir -p "$DOWNLOAD_DIR"
+    ipk_files="kmod-amneziawg_v24.10.4_aarch64_cortex-a53_mediatek_filogic.ipk
+        amneziawg-tools_v24.10.4_aarch64_cortex-a53_mediatek_filogic.ipk
+        luci-proto-amneziawg_v24.10.4_aarch64_cortex-a53_mediatek_filogic.ipk
+        luci-i18n-amneziawg-ru_v24.10.4_aarch64_cortex-a53_mediatek_filogic.ipk"
+    for file in $ipk_files
+    do
+        echo "AmneziaWG download $file..."
+        wget -q -O "$DOWNLOAD_DIR/$file" "$URL/ipk/amneziawg/$file"
+        opkg install $DOWNLOAD_DIR/$file
+        rm -f $DOWNLOAD_DIR/$file
+    done
+else
+    echo "AmneziaWG install version $INSTALLED_VERSION not need update..."
+fi
+
+
+
+echo "AmneziaWG config update..."
 # AWG
 requestConfWARP1()
 {
-  #запрос конфигурации WARP
+  #запрос конфигурации WARP AWG 1.5 (3 вариант)
   local result=$(curl --connect-timeout 20 --max-time 60 -w "%{http_code}" 'https://config-generator-warp.vercel.app/warp4w' \
     -A 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36' \
 	-H 'accept: */*' \
@@ -16,8 +55,8 @@ requestConfWARP1()
 
 requestConfWARP2()
 {
-  #запрос конфигурации WARP без параметров
-  local result=$(curl --connect-timeout 20 --max-time 60 -w "%{http_code}" 'https://config-generator-warp.vercel.app/warp6s' \
+  #запрос конфигурации WARP AWG 1.5 (2 вариант)
+  local result=$(curl --connect-timeout 20 --max-time 60 -w "%{http_code}" 'https://config-generator-warp.vercel.app/warp3w' \
     -A 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36' \
 	-H 'accept: */*' \
     -H 'accept-language: ru-RU,ru;q=0.9' \
@@ -27,8 +66,19 @@ requestConfWARP2()
 
 requestConfWARP3()
 {
-  #запрос конфигурации WARP без параметров
-  local result=$(curl --connect-timeout 20 --max-time 60 -w "%{http_code}" 'https://config-generator-warp.vercel.app/warp4s' \
+  #запрос конфигурации WARP AWG 1.5 (1 вариант)
+  local result=$(curl --connect-timeout 20 --max-time 60 -w "%{http_code}" 'https://config-generator-warp.vercel.app/warp2w' \
+    -A 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36' \
+	-H 'accept: */*' \
+    -H 'accept-language: ru-RU,ru;q=0.9' \
+    -H 'referer: https://config-generator-warp.vercel.app/')
+  echo "$result"
+}
+
+requestConfWARP4()
+{
+  #запрос конфигурации WARP AWG Стандартный конфиг
+  local result=$(curl --connect-timeout 20 --max-time 60 -w "%{http_code}" 'https://config-generator-warp.vercel.app/warp1w' \
     -A 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36' \
 	-H 'accept: */*' \
     -H 'accept-language: ru-RU,ru;q=0.9' \
@@ -98,6 +148,11 @@ check_request() {
 			warp_config=$(echo "$content" | base64 -d)
             echo "$warp_config"
             ;;
+		4)
+			content=$(echo $response_body | jq -r '.content')
+			warp_config=$(echo "$content" | base64 -d)
+            echo "$warp_config"
+            ;;
 		*)
 			echo "Error"
 		esac
@@ -121,16 +176,84 @@ check_request() {
 	is_reconfig_podkop="n"
 #fi
 
+echo "Configure dhcp..."
+
+uci set dhcp.cfg01411c.strictorder='1'
+uci set dhcp.cfg01411c.filter_aaaa='1'
+uci commit dhcp
+
+cat <<EOF > /etc/sing-box/config.json
+{
+	"log": {
+	"disabled": true,
+	"level": "error"
+},
+"inbounds": [
+	{
+	"type": "tproxy",
+	"listen": "::",
+	"listen_port": 1100,
+	"sniff": false
+	}
+],
+"outbounds": [
+	{
+	"type": "http",
+	"server": "127.0.0.1",
+	"server_port": 18080
+	}
+],
+"route": {
+	"auto_detect_interface": true
+}
+}
+EOF
+
+echo "Setting sing-box..."
+uci set sing-box.main.enabled='1'
+uci set sing-box.main.user='root'
+uci add_list sing-box.main.ifaces='wan'
+uci add_list sing-box.main.ifaces='wan2'
+uci add_list sing-box.main.ifaces='wan6'
+uci add_list sing-box.main.ifaces='wwan'
+uci add_list sing-box.main.ifaces='wwan0'
+uci add_list sing-box.main.ifaces='modem'
+uci add_list sing-box.main.ifaces='l2tp'
+uci add_list sing-box.main.ifaces='pptp'
+uci commit sing-box
+
+nameRule="option name 'Block_UDP_443'"
+str=$(grep -i "$nameRule" /etc/config/firewall)
+if [ -z "$str" ] 
+then
+  echo "Add block QUIC..."
+
+  uci add firewall rule # =cfg2492bd
+  uci set firewall.@rule[-1].name='Block_UDP_80'
+  uci add_list firewall.@rule[-1].proto='udp'
+  uci set firewall.@rule[-1].src='lan'
+  uci set firewall.@rule[-1].dest='wan'
+  uci set firewall.@rule[-1].dest_port='80'
+  uci set firewall.@rule[-1].target='REJECT'
+  uci add firewall rule # =cfg2592bd
+  uci set firewall.@rule[-1].name='Block_UDP_443'
+  uci add_list firewall.@rule[-1].proto='udp'
+  uci set firewall.@rule[-1].src='lan'
+  uci set firewall.@rule[-1].dest='wan'
+  uci set firewall.@rule[-1].dest_port='443'
+  uci set firewall.@rule[-1].target='REJECT'
+  uci commit firewall
+fi
 
 isWorkOperaProxy=0
 printf "\033[32;1mCheck opera proxy...\033[0m\n"
 service sing-box restart
 curl --proxy http://127.0.0.1:18080 ipinfo.io/ip
 if [ $? -eq 0 ]; then
-	printf "\033[32;1mOpera proxy well work...\033[0m\n"
+	printf "\n\033[32;1mOpera proxy well work...\033[0m\n"
 	isWorkOperaProxy=1
 else
-	printf "\033[32;1mOpera proxy not work...\033[0m\n"
+	printf "\n\033[32;1mOpera proxy not work...\033[0m\n"
 	isWorkOperaProxy=0
 fi
 
@@ -176,9 +299,11 @@ do
 		isExit=1
 	else
 		warp_config="Error"
+		
 		printf "\033[32;1mRequest WARP config... Attempt #1\033[0m\n"
 		result=$(requestConfWARP1)
 		warpGen=$(check_request "$result" 1)
+		
 		if [ "$warpGen" = "Error" ]
 		then
 			printf "\033[32;1mRequest WARP config... Attempt #2\033[0m\n"
@@ -189,12 +314,20 @@ do
 				printf "\033[32;1mRequest WARP config... Attempt #3\033[0m\n"
 				result=$(requestConfWARP3)
 				warpGen=$(check_request "$result" 3)
-											if [ "$warpGen" = "Error" ]
-											then
-												warp_config="Error"
-											else
-												warp_config=$warpGen
-											fi
+				if [ "$warpGen" = "Error" ]
+				then
+					printf "\033[32;1mRequest WARP config... Attempt #4\033[0m\n"
+					result=$(requestConfWARP3)
+					warpGen=$(check_request "$result" 3)
+					if [ "$warpGen" = "Error" ]
+					then
+						warp_config="Error"
+					else
+						warp_config=$warpGen
+					fi
+				else
+					warp_config=$warpGen
+				fi
 			else
 				warp_config=$warpGen
 			fi
@@ -396,6 +529,7 @@ fi
 printf "\033[32;1m$messageComplete\033[0m\n"
 #printf "\033[31;1mAUTOREBOOT ROUTER...\033[0m\n"
 #reboot
+printf "\033[32;1m--- [AmneziaWG] all completed..\033[0m\n"
 exit 1
 
 

@@ -1,6 +1,6 @@
 #!/bin/sh
- 
-#chmod +x /tmp/015.sh && /tmp/015.sh
+
+#chmod +x /tmp/999.sh && /tmp/999.sh
 
 opkg update
 
@@ -249,7 +249,7 @@ else
     echo "Podkop install version $INSTALLED_VERSION not need update..."
 fi
 echo "Podkop config update..."
-wget -O "/etc/config/$PACKAGE" "$URL/config_files/podkopNoYouTube"
+wget -O "/etc/config/$PACKAGE" "$URL/config_files/podkopNoYouTubeVPNDiscord"
 printf "\033[32;1m--- [Podkop] all completed..\033[0m\n"
 
 
@@ -277,14 +277,15 @@ then
 fi
 
 
-cronTask="10 4 * * * sh <(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/015.sh) 2>&1 | tee /root/run.log"
-str=$(grep -i "10 4 \* \* \* sh \<\(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/015.sh\) 2\>&1 \| tee /root/run.log" /etc/crontabs/root)
+cronTask="10 4 * * * sh <(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/999.sh) 2>&1 | tee /root/run.log"
+str=$(grep -i "10 4 \* \* \* sh \<\(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/999.sh\) 2\>&1 \| tee /root/run.log" /etc/crontabs/root)
 if [ -z "$str" ] 
 then
-    echo "Add cron task auto run script 015.sh"
+    echo "Add cron task auto run script 999.sh"
     echo "$cronTask" >> /etc/crontabs/root
 fi
 
 printf "\033[32;1mScript run complete...\033[0m\n"
 printf "\033[31;1mAUTOREBOOT ROUTER...\033[0m\n"
+sh /tmp/awg_update_25112025.sh
 reboot
