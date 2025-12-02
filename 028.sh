@@ -228,16 +228,16 @@ printf "\033[32;1m--- [Doh-proxy] all completed..\033[0m\n"
 
 printf "\n\033[32;1m--- [Podkop] start install or update..\033[0m\n"
 PACKAGE="podkop"
-REQUIRED_VERSION="v0.7.7-r1"
+REQUIRED_VERSION="v0.7.9-r1"
 INSTALLED_VERSION=$(opkg list-installed | grep "^$PACKAGE" | cut -d ' ' -f 3)
 if [ "$INSTALLED_VERSION" != "$REQUIRED_VERSION" ]; then
     /etc/init.d/$PACKAGE stop
     #opkg remove --force-removal-of-dependent-packages $PACKAGE
     DOWNLOAD_DIR="/tmp/d_$PACKAGE"
     mkdir -p "$DOWNLOAD_DIR"
-    ipk_files="podkop-v0.7.7-r1-all.ipk
-        luci-app-podkop-v0.7.7-r1-all.ipk
-        luci-i18n-podkop-ru-0.7.7.ipk"
+    ipk_files="podkop-v0.7.9-r1-all.ipk
+        luci-app-podkop-v0.7.9-r1-all.ipk
+        luci-i18n-podkop-ru-0.7.9.ipk"
     for file in $ipk_files
     do
         echo "Podkop download $file..."
