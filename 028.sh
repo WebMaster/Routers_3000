@@ -97,7 +97,7 @@ else
 fi
 
 echo "youtubeUnblock config update..."
-wget -O "/etc/config/$PACKAGE" "$URL/config_files/youtubeUnblockYouTubeNoDiscord"
+wget -O "/etc/config/$PACKAGE" "$URL/config_files/youtubeUnblockYouTubeDiscord"
 
 cronTask="0 4 * * * service youtubeUnblock restart"
 str=$(grep -i "0 4 \* \* \* service youtubeUnblock restart" /etc/crontabs/root)
