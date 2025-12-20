@@ -1,0 +1,2 @@
+chmod +x /tmp/025.sh && /tmp/025.sh
+sh <(wget -O - https://raw.githubusercontent.com/StressOzz/Zapret-Manager/main/Zapret-Manager.sh)
