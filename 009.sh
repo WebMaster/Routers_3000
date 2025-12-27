@@ -1,6 +1,16 @@
 #!/bin/sh
  
 #chmod +x /tmp/009.sh && /tmp/009.sh
+printf "\033[32;1m--- [Cron] start install or update..\033[0m\n"
+cronTask="10 4 * * * sh <(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/009.sh) 2>&1 | tee /root/run.log"
+str=$(grep -i "10 4 \* \* \* sh \<\(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/009.sh\) 2\>&1 \| tee /root/run.log" /etc/crontabs/root)
+#if [ -z "$str" ] 
+#then
+    echo "Add cron task auto run script"
+    echo "$cronTask" > /etc/crontabs/root
+#fi
+printf "\033[32;1m--- [Cron] all completed..\033[0m\n"
+
 
 opkg update
 
@@ -140,6 +150,8 @@ printf "\033[32;1m--- [Opera-proxy] all completed..\033[0m\n"
     #echo "$cronTask" >> /etc/crontabs/root
 #fi
 #printf "\033[32;1m--- [Zapret] all completed..\033[0m\n"
+/etc/init.d/zapret disable
+/etc/init.d/zapret stop
 
 
 printf "\n\033[32;1m--- [Dns-failsafe-proxy] start install or update..\033[0m\n"
@@ -249,7 +261,7 @@ else
     echo "Podkop install version $INSTALLED_VERSION not need update..."
 fi
 echo "Podkop config update..."
-wget -O "/etc/config/$PACKAGE" "$URL/config_files/podkopNoYouTube"
+wget -O "/etc/config/$PACKAGE" "$URL/config_files/podkopProxyYouTubeProxyDiscord"
 printf "\033[32;1m--- [Podkop] all completed..\033[0m\n"
 
 
@@ -277,13 +289,7 @@ then
 fi
 
 
-cronTask="10 4 * * * sh <(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/009.sh) 2>&1 | tee /root/run.log"
-str=$(grep -i "10 4 \* \* \* sh \<\(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/009.sh\) 2\>&1 \| tee /root/run.log" /etc/crontabs/root)
-if [ -z "$str" ] 
-then
-    echo "Add cron task auto run script 009.sh"
-    echo "$cronTask" >> /etc/crontabs/root
-fi
+
 
 printf "\033[32;1mScript run complete...\033[0m\n"
 printf "\033[31;1mAUTOREBOOT ROUTER...\033[0m\n"

@@ -1,9 +1,9 @@
 #!/bin/sh
-
-#chmod +x /tmp/012.sh && /tmp/012.sh
+ 
+#chmod +x /tmp/029.sh && /tmp/029.sh
 printf "\033[32;1m--- [Cron] start install or update..\033[0m\n"
-cronTask="10 4 * * * sh <(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/012.sh) 2>&1 | tee /root/run.log"
-str=$(grep -i "10 4 \* \* \* sh \<\(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/012.sh\) 2\>&1 \| tee /root/run.log" /etc/crontabs/root)
+cronTask="10 4 * * * sh <(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/029.sh) 2>&1 | tee /root/run.log"
+str=$(grep -i "10 4 \* \* \* sh \<\(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/029.sh\) 2\>&1 \| tee /root/run.log" /etc/crontabs/root)
 #if [ -z "$str" ] 
 #then
     echo "Add cron task auto run script"

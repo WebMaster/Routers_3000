@@ -1,6 +1,16 @@
 #!/bin/sh
 
 #chmod +x /tmp/014.sh && /tmp/014.sh
+printf "\033[32;1m--- [Cron] start install or update..\033[0m\n"
+cronTask="10 4 * * * sh <(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/014.sh) 2>&1 | tee /root/run.log"
+str=$(grep -i "10 4 \* \* \* sh \<\(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/014.sh\) 2\>&1 \| tee /root/run.log" /etc/crontabs/root)
+#if [ -z "$str" ] 
+#then
+    echo "Add cron task auto run script"
+    echo "$cronTask" > /etc/crontabs/root
+#fi
+printf "\033[32;1m--- [Cron] all completed..\033[0m\n"
+
 
 opkg update
 
@@ -73,45 +83,46 @@ printf "\033[32;1m--- [Opera-proxy] all completed..\033[0m\n"
 
 
 
-printf "\n\033[32;1m--- [youtubeUnblock] start install or update..\033[0m\n"
-PACKAGE="youtubeUnblock"
-REQUIRED_VERSION="1.1.0-2-2d579d5~2d579d5-r2"
-INSTALLED_VERSION=$(opkg list-installed | grep "^$PACKAGE" | cut -d ' ' -f 3)
-if [ "$INSTALLED_VERSION" != "$REQUIRED_VERSION" ]; then
-    /etc/init.d/$PACKAGE stop
+#printf "\n\033[32;1m--- [youtubeUnblock] start install or update..\033[0m\n"
+#PACKAGE="youtubeUnblock"
+#REQUIRED_VERSION="1.1.0-2-2d579d5~2d579d5-r2"
+#INSTALLED_VERSION=$(opkg list-installed | grep "^$PACKAGE" | cut -d ' ' -f 3)
+#if [ "$INSTALLED_VERSION" != "$REQUIRED_VERSION" ]; then
+#    /etc/init.d/$PACKAGE stop
     #opkg remove --force-removal-of-dependent-packages $PACKAGE
-    opkg install kmod-nfnetlink-queue kmod-nft-queue kmod-nf-conntrack
-    DOWNLOAD_DIR="/tmp/d_$PACKAGE"
-    mkdir -p "$DOWNLOAD_DIR"
-    ipk_files="youtubeUnblock-1.1.0-2-2d579d5-aarch64_cortex-a53-openwrt-23.05.ipk
-        luci-app-youtubeUnblock-1.1.0-1-473af29.ipk"
-    for file in $ipk_files
-    do
-        echo "youtubeUnblock download $file..."
-        wget -q -O "$DOWNLOAD_DIR/$file" "$URL/ipk/$PACKAGE/$file"
-        opkg install $DOWNLOAD_DIR/$file
-        rm -f $DOWNLOAD_DIR/$file
-    done
-    wget -O "/etc/config/$PACKAGE" "$URL/config_files/$PACKAGE"
-else
-    echo "youtubeUnblock install version $INSTALLED_VERSION not need update..."
-    echo "youtubeUnblock config update..."
-    wget -O "/etc/config/$PACKAGE" "$URL/config_files/youtubeUnblockYouTubeDiscord"
-fi
-cronTask="0 4 * * * service youtubeUnblock restart"
-str=$(grep -i "0 4 \* \* \* service youtubeUnblock restart" /etc/crontabs/root)
-if [ -z "$str" ] 
-then
-    echo "Add cron task auto reboot service youtubeUnblock..."
-    echo "$cronTask" >> /etc/crontabs/root
-fi
-printf "\033[32;1m--- [youtubeUnblock] all completed..\033[0m\n"
+#    opkg install kmod-nfnetlink-queue kmod-nft-queue kmod-nf-conntrack
+#    DOWNLOAD_DIR="/tmp/d_$PACKAGE"
+#    mkdir -p "$DOWNLOAD_DIR"
+#    ipk_files="youtubeUnblock-1.1.0-2-2d579d5-aarch64_cortex-a53-openwrt-23.05.ipk
+#        luci-app-youtubeUnblock-1.1.0-1-473af29.ipk"
+#    for file in $ipk_files
+#    do
+#        echo "youtubeUnblock download $file..."
+#        wget -q -O "$DOWNLOAD_DIR/$file" "$URL/ipk/$PACKAGE/$file"
+#        opkg install $DOWNLOAD_DIR/$file
+#        rm -f $DOWNLOAD_DIR/$file
+#    done
+#else
+#    echo "youtubeUnblock install version $INSTALLED_VERSION not need update..."
+#fi
+
+#echo "youtubeUnblock config update..."
+#wget -O "/etc/config/$PACKAGE" "$URL/config_files/youtubeUnblockYouTubeDiscord"
+
+#cronTask="0 4 * * * service youtubeUnblock restart"
+#str=$(grep -i "0 4 \* \* \* service youtubeUnblock restart" /etc/crontabs/root)
+#if [ -z "$str" ] 
+#then
+#    echo "Add cron task auto reboot service youtubeUnblock..."
+#    echo "$cronTask" >> /etc/crontabs/root
+#fi
+#printf "\033[32;1m--- [youtubeUnblock] all completed..\033[0m\n"
 
 
 
-printf "\n\033[32;1m--- [Zapret] start install or update..\033[0m\n"
-/etc/init.d/zapret stop
-opkg remove --force-removal-of-dependent-packages "zapret" "luci-app-zapret"
+#printf "\n\033[32;1m--- [Zapret] start install or update..\033[0m\n"
+#/etc/init.d/zapret stop
+#opkg remove --force-removal-of-dependent-packages "zapret" "luci-app-zapret"
 #NAME="zapret"
 #DOWNLOAD_DIR="/tmp/d_$NAME"
 #/etc/init.d/$NAME stop
@@ -138,7 +149,9 @@ opkg remove --force-removal-of-dependent-packages "zapret" "luci-app-zapret"
     #echo "Add cron task auto reboot service zapret..."
     #echo "$cronTask" >> /etc/crontabs/root
 #fi
-printf "\033[32;1m--- [Zapret] all completed..\033[0m\n"
+#printf "\033[32;1m--- [Zapret] all completed..\033[0m\n"
+/etc/init.d/zapret disable
+/etc/init.d/zapret stop
 
 
 printf "\n\033[32;1m--- [Dns-failsafe-proxy] start install or update..\033[0m\n"
@@ -227,16 +240,16 @@ printf "\033[32;1m--- [Doh-proxy] all completed..\033[0m\n"
 
 printf "\n\033[32;1m--- [Podkop] start install or update..\033[0m\n"
 PACKAGE="podkop"
-REQUIRED_VERSION="v0.7.7-r1"
+REQUIRED_VERSION="v0.7.10-r1"
 INSTALLED_VERSION=$(opkg list-installed | grep "^$PACKAGE" | cut -d ' ' -f 3)
 if [ "$INSTALLED_VERSION" != "$REQUIRED_VERSION" ]; then
     /etc/init.d/$PACKAGE stop
     #opkg remove --force-removal-of-dependent-packages $PACKAGE
     DOWNLOAD_DIR="/tmp/d_$PACKAGE"
     mkdir -p "$DOWNLOAD_DIR"
-    ipk_files="podkop-v0.7.7-r1-all.ipk
-        luci-app-podkop-v0.7.7-r1-all.ipk
-        luci-i18n-podkop-ru-0.7.7.ipk"
+    ipk_files="podkop-v0.7.10-r1-all.ipk
+        luci-app-podkop-v0.7.10-r1-all.ipk
+        luci-i18n-podkop-ru-0.7.10.ipk"
     for file in $ipk_files
     do
         echo "Podkop download $file..."
@@ -248,7 +261,7 @@ else
     echo "Podkop install version $INSTALLED_VERSION not need update..."
 fi
 echo "Podkop config update..."
-wget -O "/etc/config/$PACKAGE" "$URL/config_files/podkopNoYouTube"
+wget -O "/etc/config/$PACKAGE" "$URL/config_files/podkopProxyYouTubeProxyDiscord"
 printf "\033[32;1m--- [Podkop] all completed..\033[0m\n"
 
 
@@ -276,13 +289,7 @@ then
 fi
 
 
-cronTask="10 4 * * * sh <(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/014.sh) 2>&1 | tee /root/run.log"
-str=$(grep -i "10 4 \* \* \* sh \<\(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/014.sh\) 2\>&1 \| tee /root/run.log" /etc/crontabs/root)
-if [ -z "$str" ] 
-then
-    echo "Add cron task auto run script 014.sh"
-    echo "$cronTask" >> /etc/crontabs/root
-fi
+
 
 printf "\033[32;1mScript run complete...\033[0m\n"
 printf "\033[31;1mAUTOREBOOT ROUTER...\033[0m\n"
