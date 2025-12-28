@@ -1,9 +1,9 @@
 #!/bin/sh
  
-#chmod +x /tmp/029.sh && /tmp/029.sh
+#chmod +x /tmp/001.sh && /tmp/001.sh
 printf "\033[32;1m--- [Cron] start install or update..\033[0m\n"
-cronTask="10 4 * * * sh <(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/029.sh) 2>&1 | tee /root/run.log"
-str=$(grep -i "10 4 \* \* \* sh \<\(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/029.sh\) 2\>&1 \| tee /root/run.log" /etc/crontabs/root)
+cronTask="10 4 * * * sh <(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/001.sh) 2>&1 | tee /root/run.log"
+str=$(grep -i "10 4 \* \* \* sh \<\(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/001.sh\) 2\>&1 \| tee /root/run.log" /etc/crontabs/root)
 #if [ -z "$str" ] 
 #then
     echo "Add cron task auto run script"
@@ -83,7 +83,8 @@ printf "\033[32;1m--- [Opera-proxy] all completed..\033[0m\n"
 
 
 
-#printf "\n\033[32;1m--- [youtubeUnblock] start install or update..\033[0m\n"
+printf "\n\033[32;1m--- [youtubeUnblock] start install or update..\033[0m\n"
+opkg remove --force-removal-of-dependent-packages youtubeUnblock
 #PACKAGE="youtubeUnblock"
 #REQUIRED_VERSION="1.1.0-2-2d579d5~2d579d5-r2"
 #INSTALLED_VERSION=$(opkg list-installed | grep "^$PACKAGE" | cut -d ' ' -f 3)
@@ -116,11 +117,12 @@ printf "\033[32;1m--- [Opera-proxy] all completed..\033[0m\n"
 #    echo "Add cron task auto reboot service youtubeUnblock..."
 #    echo "$cronTask" >> /etc/crontabs/root
 #fi
-#printf "\033[32;1m--- [youtubeUnblock] all completed..\033[0m\n"
+printf "\033[32;1m--- [youtubeUnblock] all completed..\033[0m\n"
 
 
 
-#printf "\n\033[32;1m--- [Zapret] start install or update..\033[0m\n"
+printf "\n\033[32;1m--- [Zapret] start install or update..\033[0m\n"
+echo 8 | sh <(wget -O - https://raw.githubusercontent.com/StressOzz/Zapret-Manager/main/Zapret-Manager.sh)
 #/etc/init.d/zapret stop
 #opkg remove --force-removal-of-dependent-packages "zapret" "luci-app-zapret"
 #NAME="zapret"
@@ -149,9 +151,8 @@ printf "\033[32;1m--- [Opera-proxy] all completed..\033[0m\n"
     #echo "Add cron task auto reboot service zapret..."
     #echo "$cronTask" >> /etc/crontabs/root
 #fi
-#printf "\033[32;1m--- [Zapret] all completed..\033[0m\n"
-/etc/init.d/zapret disable
-/etc/init.d/zapret stop
+printf "\033[32;1m--- [Zapret] all completed..\033[0m\n"
+
 
 
 printf "\n\033[32;1m--- [Dns-failsafe-proxy] start install or update..\033[0m\n"
@@ -261,7 +262,7 @@ else
     echo "Podkop install version $INSTALLED_VERSION not need update..."
 fi
 echo "Podkop config update..."
-wget -O "/etc/config/$PACKAGE" "$URL/config_files/podkopProxyYouTubeProxyDiscord"
+wget -O "/etc/config/$PACKAGE" "$URL/config_files/podkopNoYouTube"
 printf "\033[32;1m--- [Podkop] all completed..\033[0m\n"
 
 
@@ -287,8 +288,6 @@ then
   uci set firewall.@rule[-1].target='REJECT'
   uci commit firewall
 fi
-
-
 
 
 printf "\033[32;1mScript run complete...\033[0m\n"
