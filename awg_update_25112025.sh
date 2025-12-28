@@ -4,6 +4,7 @@
 
 URL="https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main"
 
+opkg update
 opkg install coreutils-base64
 opkg install jq
 opkg install curl
