@@ -258,7 +258,7 @@ fi
 
 
 printf "\n\033[32;1m--- [Zapret] start install or update..\033[0m\n"
-#echo 8 | sh <(wget -O - https://raw.githubusercontent.com/StressOzz/Zapret-Manager/main/Zapret-Manager.sh)
+#echo '8' | sh <(wget -O - https://raw.githubusercontent.com/StressOzz/Zapret-Manager/main/Zapret-Manager.sh)
 wget -O /tmp/Zapret-Manager.sh https://raw.githubusercontent.com/StressOzz/Zapret-Manager/main/Zapret-Manager.sh && echo '8' | sh /tmp/Zapret-Manager.sh
 #/etc/init.d/zapret stop
 #opkg remove --force-removal-of-dependent-packages "zapret" "luci-app-zapret"
@@ -294,4 +294,4 @@ printf "\033[32;1m--- [Zapret] all completed..\033[0m\n"
 
 printf "\033[32;1mScript run complete...\033[0m\n"
 printf "\033[31;1mAUTOREBOOT ROUTER...\033[0m\n"
-#reboot
+reboot
