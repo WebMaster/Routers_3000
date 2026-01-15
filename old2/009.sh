@@ -121,40 +121,6 @@ printf "\033[32;1m--- [youtubeUnblock] all completed..\033[0m\n"
 
 
 
-printf "\n\033[32;1m--- [Zapret] start install or update..\033[0m\n"
-echo 8 | sh <(wget -O - https://raw.githubusercontent.com/StressOzz/Zapret-Manager/main/Zapret-Manager.sh)
-#/etc/init.d/zapret stop
-#opkg remove --force-removal-of-dependent-packages "zapret" "luci-app-zapret"
-#NAME="zapret"
-#DOWNLOAD_DIR="/tmp/d_$NAME"
-#/etc/init.d/$NAME stop
-#mkdir -p "$DOWNLOAD_DIR"
-#ipk_files="zapret_72.20251122_aarch64_cortex-a53.ipk
-#    luci-app-zapret_72.20251122-r1_all.ipk"
-#for file in $ipk_files
-#do
-#	echo "Download $file..."
-#	wget -q -O "$DOWNLOAD_DIR/$file" "$URL/ipk/$NAME/$file"
-#    opkg install $DOWNLOAD_DIR/$file
-#    rm -f $DOWNLOAD_DIR/$file
-#done
-#wget -O "/etc/config/$NAME" "$URL/config_files/$NAME"
-#wget -O "/opt/zapret/init.d/openwrt/custom.d/50-script.sh" "$URL/config_files/50-script.sh"
-#chmod +x "/opt/zapret/init.d/openwrt/custom.d/50-script.sh"
-#wget -O "/opt/zapret/ipset/zapret-hosts-google.txt" "$URL/config_files/zapret-hosts-google.txt"
-#wget -O "/opt/zapret/ipset/zapret-hosts-user-exclude.txt" "$URL/config_files/zapret-hosts-user-exclude.txt"
-#wget -O "/opt/zapret/ipset/zapret-ip-exclude.txt" "$URL/config_files/zapret-ip-exclude.txt"
-#cronTask="0 4 * * * service zapret restart"
-#str=$(grep -i "0 4 \* \* \* service zapret restart" /etc/crontabs/root)
-#if [ -z "$str" ] 
-#then
-    #echo "Add cron task auto reboot service zapret..."
-    #echo "$cronTask" >> /etc/crontabs/root
-#fi
-printf "\033[32;1m--- [Zapret] all completed..\033[0m\n"
-
-
-
 printf "\n\033[32;1m--- [Dns-failsafe-proxy] start install or update..\033[0m\n"
 PACKAGE="luci-app-dns-failsafe-proxy"
 REQUIRED_VERSION="1.0.6"
@@ -262,7 +228,7 @@ else
     echo "Podkop install version $INSTALLED_VERSION not need update..."
 fi
 echo "Podkop config update..."
-wget -O "/etc/config/$PACKAGE" "$URL/config_files/podkopNoYouTube"
+wget -O "/etc/config/$PACKAGE" "$URL/config_files/podkop"
 printf "\033[32;1m--- [Podkop] all completed..\033[0m\n"
 
 
@@ -288,6 +254,42 @@ then
   uci set firewall.@rule[-1].target='REJECT'
   uci commit firewall
 fi
+
+
+
+printf "\n\033[32;1m--- [Zapret] start install or update..\033[0m\n"
+#echo '8' | sh <(wget -O - https://raw.githubusercontent.com/StressOzz/Zapret-Manager/main/Zapret-Manager.sh)
+wget -O /tmp/Zapret-Manager.sh https://raw.githubusercontent.com/StressOzz/Zapret-Manager/main/Zapret-Manager.sh && echo '8' | sh /tmp/Zapret-Manager.sh
+#/etc/init.d/zapret stop
+#opkg remove --force-removal-of-dependent-packages "zapret" "luci-app-zapret"
+#NAME="zapret"
+#DOWNLOAD_DIR="/tmp/d_$NAME"
+#/etc/init.d/$NAME stop
+#mkdir -p "$DOWNLOAD_DIR"
+#ipk_files="zapret_72.20251122_aarch64_cortex-a53.ipk
+#    luci-app-zapret_72.20251122-r1_all.ipk"
+#for file in $ipk_files
+#do
+#	echo "Download $file..."
+#	wget -q -O "$DOWNLOAD_DIR/$file" "$URL/ipk/$NAME/$file"
+#    opkg install $DOWNLOAD_DIR/$file
+#    rm -f $DOWNLOAD_DIR/$file
+#done
+#wget -O "/etc/config/$NAME" "$URL/config_files/$NAME"
+#wget -O "/opt/zapret/init.d/openwrt/custom.d/50-script.sh" "$URL/config_files/50-script.sh"
+#chmod +x "/opt/zapret/init.d/openwrt/custom.d/50-script.sh"
+#wget -O "/opt/zapret/ipset/zapret-hosts-google.txt" "$URL/config_files/zapret-hosts-google.txt"
+#wget -O "/opt/zapret/ipset/zapret-hosts-user-exclude.txt" "$URL/config_files/zapret-hosts-user-exclude.txt"
+#wget -O "/opt/zapret/ipset/zapret-ip-exclude.txt" "$URL/config_files/zapret-ip-exclude.txt"
+#cronTask="0 4 * * * service zapret restart"
+#str=$(grep -i "0 4 \* \* \* service zapret restart" /etc/crontabs/root)
+#if [ -z "$str" ] 
+#then
+    #echo "Add cron task auto reboot service zapret..."
+    #echo "$cronTask" >> /etc/crontabs/root
+#fi
+printf "\033[32;1m--- [Zapret] all completed..\033[0m\n"
+
 
 
 printf "\033[32;1mScript run complete...\033[0m\n"
