@@ -61,14 +61,14 @@ wget -O "/etc/config/dhcp" "$URL/config_files/dhcp"
 
 printf "\n\033[32;1m--- [Opera-proxy] start install or update..\033[0m\n"
 PACKAGE="opera-proxy"
-REQUIRED_VERSION="1.13.1-r1"
+REQUIRED_VERSION="1.15.0-r1"
 INSTALLED_VERSION=$(opkg list-installed | grep "^$PACKAGE" | cut -d ' ' -f 3)
 if [ "$INSTALLED_VERSION" != "$REQUIRED_VERSION" ]; then
     /etc/init.d/$PACKAGE stop
     #opkg remove --force-removal-of-dependent-packages $PACKAGE
     DOWNLOAD_DIR="/tmp/d_$PACKAGE"
     mkdir -p "$DOWNLOAD_DIR"
-    ipk_files="opera-proxy_1.13.1-r1_aarch64_cortex-a53.ipk"
+    ipk_files="opera-proxy_1.15.0-r1_aarch64_cortex-a53.ipk"
     for file in $ipk_files
     do
         echo "Opera-proxy download $file..."
