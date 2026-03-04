@@ -228,7 +228,7 @@ else
     echo "Podkop install version $INSTALLED_VERSION not need update..."
 fi
 echo "Podkop config update..."
-wget -O "/etc/config/$PACKAGE" "$URL/config_files/podkop"
+wget -O "/etc/config/$PACKAGE" "$URL/config_files/podkop_tailscale"
 printf "\033[32;1m--- [Podkop] all completed..\033[0m\n"
 
 
