@@ -1,16 +1,16 @@
 #!/bin/sh
   
-#chmod +x /tmp/020.sh && /tmp/020.sh
+#chmod +x /tmp/006.sh && /tmp/006.sh
 printf "\033[32;1m--- [Cron] start install or update..\033[0m\n"
-cronTask="10 4 * * * sh <(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/020.sh) 2>&1 | tee /root/run.log"
-str=$(grep -i "10 4 \* \* \* sh \<\(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/020.sh\) 2\>&1 \| tee /root/run.log" /etc/crontabs/root)
+cronTask="10 4 * * * sh <(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/006.sh) 2>&1 | tee /root/run.log"
+str=$(grep -i "10 4 \* \* \* sh \<\(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/006.sh\) 2\>&1 \| tee /root/run.log" /etc/crontabs/root)
 #if [ -z "$str" ] 
 #then
     echo "Add cron task auto run script"
     echo "$cronTask" > /etc/crontabs/root
 #fi
 printf "\033[32;1m--- [Cron] all completed..\033[0m\n"
- 
+
 
 opkg update
 

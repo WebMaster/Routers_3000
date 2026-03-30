@@ -10,7 +10,7 @@ str=$(grep -i "10 4 \* \* \* sh \<\(wget --no-check-certificate -q -O - https://
     echo "$cronTask" > /etc/crontabs/root
 #fi
 printf "\033[32;1m--- [Cron] all completed..\033[0m\n"
-
+ 
 
 opkg update
 
