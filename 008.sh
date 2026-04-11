@@ -258,8 +258,8 @@ fi
 
 
 printf "\n\033[32;1m--- [Zapret] start install or update..\033[0m\n"
-#echo '8' | sh <(wget -O - https://raw.githubusercontent.com/StressOzz/Zapret-Manager/main/Zapret-Manager.sh)
-wget -O /tmp/Zapret-Manager.sh https://raw.githubusercontent.com/StressOzz/Zapret-Manager/main/Zapret-Manager.sh && echo '8' | sh /tmp/Zapret-Manager.sh
+#echo '9' | sh <(wget -O - https://raw.githubusercontent.com/StressOzz/Zapret-Manager/main/Zapret-Manager.sh)
+wget -O /tmp/Zapret-Manager.sh https://raw.githubusercontent.com/StressOzz/Zapret-Manager/main/Zapret-Manager.sh && echo '9' | sh /tmp/Zapret-Manager.sh
 #/etc/init.d/zapret stop
 #opkg remove --force-removal-of-dependent-packages "zapret" "luci-app-zapret"
 #NAME="zapret"
