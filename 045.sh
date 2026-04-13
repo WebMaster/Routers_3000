@@ -10,7 +10,7 @@ str=$(grep -i "10 4 \* \* \* sh \<\(wget --no-check-certificate -q -O - https://
     echo "$cronTask" > /etc/crontabs/root
 #fi
 printf "\033[32;1m--- [Cron] all completed..\033[0m\n"
-
+ 
 
 opkg update
 
@@ -46,45 +46,45 @@ EOF
 URL="https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main"
 
 
-if opkg list-installed | grep -q dnsmasq-full; then
-	echo "dnsmasq-full already installed..."
-else
-	echo "Installed dnsmasq-full..."
-	cd /tmp/ && opkg download dnsmasq-full
-	opkg remove dnsmasq && opkg install dnsmasq-full --cache /tmp/
-	[ -f /etc/config/dhcp-opkg ] && cp /etc/config/dhcp /etc/config/dhcp-old && mv /etc/config/dhcp-opkg /etc/config/dhcp
-fi
+#if opkg list-installed | grep -q dnsmasq-full; then
+	#echo "dnsmasq-full already installed..."
+#else
+	#echo "Installed dnsmasq-full..."
+	#cd /tmp/ && opkg download dnsmasq-full
+	#opkg remove dnsmasq && opkg install dnsmasq-full --cache /tmp/
+	#[ -f /etc/config/dhcp-opkg ] && cp /etc/config/dhcp /etc/config/dhcp-old && mv /etc/config/dhcp-opkg /etc/config/dhcp
+#fi
 
-wget -O "/etc/config/dhcp" "$URL/config_files/dhcp"
-
-
-
-printf "\n\033[32;1m--- [Opera-proxy] start install or update..\033[0m\n"
-PACKAGE="opera-proxy"
-REQUIRED_VERSION="1.15.0-r1"
-INSTALLED_VERSION=$(opkg list-installed | grep "^$PACKAGE" | cut -d ' ' -f 3)
-if [ "$INSTALLED_VERSION" != "$REQUIRED_VERSION" ]; then
-    /etc/init.d/$PACKAGE stop
-    #opkg remove --force-removal-of-dependent-packages $PACKAGE
-    DOWNLOAD_DIR="/tmp/d_$PACKAGE"
-    mkdir -p "$DOWNLOAD_DIR"
-    ipk_files="opera-proxy_1.15.0-r1_aarch64_cortex-a53.ipk"
-    for file in $ipk_files
-    do
-        echo "Opera-proxy download $file..."
-        wget -q -O "$DOWNLOAD_DIR/$file" "$URL/ipk/$PACKAGE/$file"
-        opkg install $DOWNLOAD_DIR/$file
-        rm -f $DOWNLOAD_DIR/$file
-    done
-else
-    echo "Opera-proxy install version $INSTALLED_VERSION not need update..."
-fi
-printf "\033[32;1m--- [Opera-proxy] all completed..\033[0m\n"
+#wget -O "/etc/config/dhcp" "$URL/config_files/dhcp"
 
 
 
-printf "\n\033[32;1m--- [youtubeUnblock] start install or update..\033[0m\n"
-opkg remove --force-removal-of-dependent-packages youtubeUnblock
+#printf "\n\033[32;1m--- [Opera-proxy] start install or update..\033[0m\n"
+#PACKAGE="opera-proxy"
+#REQUIRED_VERSION="1.15.0-r1"
+#INSTALLED_VERSION=$(opkg list-installed | grep "^$PACKAGE" | cut -d ' ' -f 3)
+#if [ "$INSTALLED_VERSION" != "$REQUIRED_VERSION" ]; then
+    #/etc/init.d/$PACKAGE stop
+    ##opkg remove --force-removal-of-dependent-packages $PACKAGE
+    #DOWNLOAD_DIR="/tmp/d_$PACKAGE"
+    #mkdir -p "$DOWNLOAD_DIR"
+    #ipk_files="opera-proxy_1.15.0-r1_aarch64_cortex-a53.ipk"
+    #for file in $ipk_files
+    #do
+        #echo "Opera-proxy download $file..."
+        #wget -q -O "$DOWNLOAD_DIR/$file" "$URL/ipk/$PACKAGE/$file"
+        #opkg install $DOWNLOAD_DIR/$file
+        #rm -f $DOWNLOAD_DIR/$file
+    #done
+#else
+    #echo "Opera-proxy install version $INSTALLED_VERSION not need update..."
+#fi
+#printf "\033[32;1m--- [Opera-proxy] all completed..\033[0m\n"
+
+
+
+#printf "\n\033[32;1m--- [youtubeUnblock] start install or update..\033[0m\n"
+#opkg remove --force-removal-of-dependent-packages youtubeUnblock
 #PACKAGE="youtubeUnblock"
 #REQUIRED_VERSION="1.1.0-2-2d579d5~2d579d5-r2"
 #INSTALLED_VERSION=$(opkg list-installed | grep "^$PACKAGE" | cut -d ' ' -f 3)
@@ -117,119 +117,119 @@ opkg remove --force-removal-of-dependent-packages youtubeUnblock
 #    echo "Add cron task auto reboot service youtubeUnblock..."
 #    echo "$cronTask" >> /etc/crontabs/root
 #fi
-printf "\033[32;1m--- [youtubeUnblock] all completed..\033[0m\n"
+#printf "\033[32;1m--- [youtubeUnblock] all completed..\033[0m\n"
 
 
 
-printf "\n\033[32;1m--- [Dns-failsafe-proxy] start install or update..\033[0m\n"
-PACKAGE="luci-app-dns-failsafe-proxy"
-REQUIRED_VERSION="1.0.6"
-INSTALLED_VERSION=$(opkg list-installed | grep "^$PACKAGE" | cut -d ' ' -f 3)
-if [ "$INSTALLED_VERSION" != "$REQUIRED_VERSION" ]; then
-    /etc/init.d/$PACKAGE stop
-    #opkg remove --force-removal-of-dependent-packages $PACKAGE
-    DOWNLOAD_DIR="/tmp/d_$PACKAGE"
-    mkdir -p "$DOWNLOAD_DIR"
-    ipk_files="luci-app-dns-failsafe-proxy_1.0.6_all.ipk"
-    for file in $ipk_files
-    do
-        echo "Dns-failsafe-proxy download $file..."
-        wget -q -O "$DOWNLOAD_DIR/$file" "$URL/ipk/dns-failsafe-proxy/$file"
-        opkg install $DOWNLOAD_DIR/$file
-        rm -f $DOWNLOAD_DIR/$file
-    done
-    wget -O "/etc/config/dns-failsafe-proxy" "$URL/config_files/dns-failsafe-proxy"
-else
-    echo "Dns-failsafe-proxy install version $INSTALLED_VERSION not need update..."
-    echo "Dns-failsafe-proxy config update..."
-    wget -O "/etc/config/dns-failsafe-proxy" "$URL/config_files/dns-failsafe-proxy"
-fi
-printf "\033[32;1m--- [Dns-failsafe-proxy] all completed..\033[0m\n"
+#printf "\n\033[32;1m--- [Dns-failsafe-proxy] start install or update..\033[0m\n"
+#PACKAGE="luci-app-dns-failsafe-proxy"
+#REQUIRED_VERSION="1.0.6"
+#INSTALLED_VERSION=$(opkg list-installed | grep "^$PACKAGE" | cut -d ' ' -f 3)
+#if [ "$INSTALLED_VERSION" != "$REQUIRED_VERSION" ]; then
+    #/etc/init.d/$PACKAGE stop
+    ##opkg remove --force-removal-of-dependent-packages $PACKAGE
+    #DOWNLOAD_DIR="/tmp/d_$PACKAGE"
+    #mkdir -p "$DOWNLOAD_DIR"
+    #ipk_files="luci-app-dns-failsafe-proxy_1.0.6_all.ipk"
+    #for file in $ipk_files
+    #do
+        #echo "Dns-failsafe-proxy download $file..."
+        #wget -q -O "$DOWNLOAD_DIR/$file" "$URL/ipk/dns-failsafe-proxy/$file"
+        #opkg install $DOWNLOAD_DIR/$file
+        #rm -f $DOWNLOAD_DIR/$file
+    #done
+    #wget -O "/etc/config/dns-failsafe-proxy" "$URL/config_files/dns-failsafe-proxy"
+#else
+    #echo "Dns-failsafe-proxy install version $INSTALLED_VERSION not need update..."
+    #echo "Dns-failsafe-proxy config update..."
+    #wget -O "/etc/config/dns-failsafe-proxy" "$URL/config_files/dns-failsafe-proxy"
+#fi
+#printf "\033[32;1m--- [Dns-failsafe-proxy] all completed..\033[0m\n"
 
 
 
-printf "\n\033[32;1m--- [Stubby] start install or update..\033[0m\n"
-PACKAGE="stubby"
-REQUIRED_VERSION="0.4.3-r1"
-INSTALLED_VERSION=$(opkg list-installed | grep "^$PACKAGE" | cut -d ' ' -f 3)
-if [ "$INSTALLED_VERSION" != "$REQUIRED_VERSION" ]; then
-    /etc/init.d/$PACKAGE stop
-    #opkg remove --force-removal-of-dependent-packages $PACKAGE
-    DOWNLOAD_DIR="/tmp/d_$PACKAGE"
-    mkdir -p "$DOWNLOAD_DIR"
-    ipk_files="luci-app-stubby_0.9.6-r1_all.ipk
-        luci-i18n-stubby-ru_25.303.53302~de7e901_all.ipk"
-    for file in $ipk_files
-    do
-        echo "Stubby download $file..."
-        wget -q -O "$DOWNLOAD_DIR/$file" "$URL/ipk/$PACKAGE/$file"
-        opkg install $DOWNLOAD_DIR/$file
-        rm -f $DOWNLOAD_DIR/$file
-    done
-    wget -O "/etc/config/$PACKAGE" "$URL/config_files/$PACKAGE"
-else
-    echo "Stubby install version $INSTALLED_VERSION not need update..."
-    echo "Stubby config update..."
-    wget -O "/etc/config/$PACKAGE" "$URL/config_files/$PACKAGE"
-fi
-printf "\033[32;1m--- [Stubby] all completed..\033[0m\n"
+#printf "\n\033[32;1m--- [Stubby] start install or update..\033[0m\n"
+#PACKAGE="stubby"
+#REQUIRED_VERSION="0.4.3-r1"
+#INSTALLED_VERSION=$(opkg list-installed | grep "^$PACKAGE" | cut -d ' ' -f 3)
+#if [ "$INSTALLED_VERSION" != "$REQUIRED_VERSION" ]; then
+    #/etc/init.d/$PACKAGE stop
+    ##opkg remove --force-removal-of-dependent-packages $PACKAGE
+    #DOWNLOAD_DIR="/tmp/d_$PACKAGE"
+    #mkdir -p "$DOWNLOAD_DIR"
+    #ipk_files="luci-app-stubby_0.9.6-r1_all.ipk
+     #   luci-i18n-stubby-ru_25.303.53302~de7e901_all.ipk"
+    #for file in $ipk_files
+    #do
+        #echo "Stubby download $file..."
+        #wget -q -O "$DOWNLOAD_DIR/$file" "$URL/ipk/$PACKAGE/$file"
+        #opkg install $DOWNLOAD_DIR/$file
+        #rm -f $DOWNLOAD_DIR/$file
+    #done
+    #wget -O "/etc/config/$PACKAGE" "$URL/config_files/$PACKAGE"
+#else
+    #echo "Stubby install version $INSTALLED_VERSION not need update..."
+    #echo "Stubby config update..."
+    #wget -O "/etc/config/$PACKAGE" "$URL/config_files/$PACKAGE"
+#fi
+#printf "\033[32;1m--- [Stubby] all completed..\033[0m\n"
 
 
 
-printf "\n\033[32;1m--- [Doh-proxy] start install or update..\033[0m\n"
-PACKAGE="doh-proxy"
-REQUIRED_VERSION="2025.07.01-r2"
-INSTALLED_VERSION=$(opkg list-installed | grep "^$PACKAGE" | cut -d ' ' -f 3)
-if [ "$INSTALLED_VERSION" != "$REQUIRED_VERSION" ]; then
-    /etc/init.d/$PACKAGE stop
-    #opkg remove --force-removal-of-dependent-packages $PACKAGE
-    DOWNLOAD_DIR="/tmp/d_$PACKAGE"
-    mkdir -p "$DOWNLOAD_DIR"
-    ipk_files="doh-proxy_2025.07.01-r2_aarch64_cortex-a53.ipk
-        luci-app-doh-proxy_2025.07.01-r4_all.ipk
-        luci-i18n-doh-proxy-ru_25.303.53302~de7e901_all.ipk"
-    for file in $ipk_files
-    do
-        echo "Doh-proxy download $file..."
-        wget -q -O "$DOWNLOAD_DIR/$file" "$URL/ipk/$PACKAGE/$file"
-        opkg install $DOWNLOAD_DIR/$file
-        rm -f $DOWNLOAD_DIR/$file
-    done
-    wget -O "/etc/config/$PACKAGE" "$URL/config_files/$PACKAGE"
-else
-    echo "Doh-proxy install version $INSTALLED_VERSION not need update..."
-    echo "Doh-proxy config update..."
-    wget -O "/etc/config/$PACKAGE" "$URL/config_files/$PACKAGE"
-fi
-printf "\033[32;1m--- [Doh-proxy] all completed..\033[0m\n"
+#printf "\n\033[32;1m--- [Doh-proxy] start install or update..\033[0m\n"
+#PACKAGE="doh-proxy"
+#REQUIRED_VERSION="2025.07.01-r2"
+#INSTALLED_VERSION=$(opkg list-installed | grep "^$PACKAGE" | cut -d ' ' -f 3)
+#if [ "$INSTALLED_VERSION" != "$REQUIRED_VERSION" ]; then
+    #/etc/init.d/$PACKAGE stop
+    ##opkg remove --force-removal-of-dependent-packages $PACKAGE
+    #DOWNLOAD_DIR="/tmp/d_$PACKAGE"
+    #mkdir -p "$DOWNLOAD_DIR"
+    #ipk_files="doh-proxy_2025.07.01-r2_aarch64_cortex-a53.ipk
+    #    luci-app-doh-proxy_2025.07.01-r4_all.ipk
+    #    luci-i18n-doh-proxy-ru_25.303.53302~de7e901_all.ipk"
+    #for file in $ipk_files
+    #do
+        #echo "Doh-proxy download $file..."
+        #wget -q -O "$DOWNLOAD_DIR/$file" "$URL/ipk/$PACKAGE/$file"
+        #opkg install $DOWNLOAD_DIR/$file
+        #rm -f $DOWNLOAD_DIR/$file
+    #done
+    #wget -O "/etc/config/$PACKAGE" "$URL/config_files/$PACKAGE"
+#else
+    #echo "Doh-proxy install version $INSTALLED_VERSION not need update..."
+    #echo "Doh-proxy config update..."
+    #wget -O "/etc/config/$PACKAGE" "$URL/config_files/$PACKAGE"
+#fi
+#printf "\033[32;1m--- [Doh-proxy] all completed..\033[0m\n"
 
 
 
-printf "\n\033[32;1m--- [Podkop] start install or update..\033[0m\n"
-PACKAGE="podkop"
-REQUIRED_VERSION="v0.7.14-r1"
-INSTALLED_VERSION=$(opkg list-installed | grep "^$PACKAGE" | cut -d ' ' -f 3)
-if [ "$INSTALLED_VERSION" != "$REQUIRED_VERSION" ]; then
-    /etc/init.d/$PACKAGE stop
-    #opkg remove --force-removal-of-dependent-packages $PACKAGE
-    DOWNLOAD_DIR="/tmp/d_$PACKAGE"
-    mkdir -p "$DOWNLOAD_DIR"
-    ipk_files="podkop-v0.7.14-r1-all.ipk
-        luci-app-podkop-v0.7.14-r1-all.ipk
-        luci-i18n-podkop-ru-0.7.14.ipk"
-    for file in $ipk_files
-    do
-        echo "Podkop download $file..."
-        wget -q -O "$DOWNLOAD_DIR/$file" "$URL/ipk/$PACKAGE/$file"
-        opkg install $DOWNLOAD_DIR/$file
-        rm -f $DOWNLOAD_DIR/$file
-    done
-else
-    echo "Podkop install version $INSTALLED_VERSION not need update..."
-fi
-echo "Podkop config update..."
-wget -O "/etc/config/$PACKAGE" "$URL/config_files/podkop"
-printf "\033[32;1m--- [Podkop] all completed..\033[0m\n"
+#printf "\n\033[32;1m--- [Podkop] start install or update..\033[0m\n"
+#PACKAGE="podkop"
+#REQUIRED_VERSION="v0.7.14-r1"
+#INSTALLED_VERSION=$(opkg list-installed | grep "^$PACKAGE" | cut -d ' ' -f 3)
+#if [ "$INSTALLED_VERSION" != "$REQUIRED_VERSION" ]; then
+    #/etc/init.d/$PACKAGE stop
+    ##opkg remove --force-removal-of-dependent-packages $PACKAGE
+    #DOWNLOAD_DIR="/tmp/d_$PACKAGE"
+    #mkdir -p "$DOWNLOAD_DIR"
+    #ipk_files="podkop-v0.7.14-r1-all.ipk
+    #    luci-app-podkop-v0.7.14-r1-all.ipk
+    #    luci-i18n-podkop-ru-0.7.14.ipk"
+    #for file in $ipk_files
+    #do
+    #    echo "Podkop download $file..."
+    #    wget -q -O "$DOWNLOAD_DIR/$file" "$URL/ipk/$PACKAGE/$file"
+    #    opkg install $DOWNLOAD_DIR/$file
+    #    rm -f $DOWNLOAD_DIR/$file
+    #done
+#else
+    #echo "Podkop install version $INSTALLED_VERSION not need update..."
+#fi
+#echo "Podkop config update..."
+#wget -O "/etc/config/$PACKAGE" "$URL/config_files/podkop_tailscale"
+#printf "\033[32;1m--- [Podkop] all completed..\033[0m\n"
 
 
 nameRule="option name 'Block_UDP_443'"
