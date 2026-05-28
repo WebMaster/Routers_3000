@@ -13,7 +13,7 @@ printf "\033[32;1m--- [Cron] all completed..\033[0m\n"
  
 #git="githubusercontent.com"; grep -q "raw.$git" /etc/hosts || { printf "#$git\n185.199.109.133 raw.$git release-assets.$git\n185.199.108.133 private-user-images.$git gist.$git avatars.$git\n" >> /etc/hosts; /etc/init.d/dnsmasq restart 2>/dev/null; }; echo -e "\033[0;32mOK\033[0m"
 
-opkg update
+#opkg update
 
 URL="https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main"
 
