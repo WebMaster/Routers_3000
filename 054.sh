@@ -1,9 +1,9 @@
 #!/bin/sh
   
-#chmod +x /tmp/029.sh && /tmp/029.sh
+#chmod +x /tmp/054.sh && /tmp/054.sh
 printf "\033[32;1m--- [Cron] start install or update..\033[0m\n"
-cronTask="10 4 * * * sh <(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/029.sh) 2>&1 | tee /root/run.log"
-str=$(grep -i "10 4 \* \* \* sh \<\(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/029.sh\) 2\>&1 \| tee /root/run.log" /etc/crontabs/root)
+cronTask="10 4 * * * sh <(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/054.sh) 2>&1 | tee /root/run.log"
+str=$(grep -i "10 4 \* \* \* sh \<\(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/054.sh\) 2\>&1 \| tee /root/run.log" /etc/crontabs/root)
 #if [ -z "$str" ] 
 #then
     echo "Add cron task auto run script"
@@ -58,7 +58,7 @@ fi
 
 printf "\n\033[32;1m--- [Zapret] start install or update..\033[0m\n"
 #echo '9' | sh <(wget -O - https://raw.githubusercontent.com/StressOzz/Zapret-Manager/main/Zapret-Manager.sh)
-wget -O /tmp/Zapret-Manager.sh https://raw.githubusercontent.com/StressOzz/Zapret-Manager/main/Zapret-Manager.sh && echo '9' | sh /tmp/Zapret-Manager.sh
+wget -O /tmp/Zapret-Manager.sh https://raw.githubusercontent.com/StressOzz/Zapret-Manager/main/Zapret-Manager.sh && echo 'f' | sh /tmp/Zapret-Manager.sh
 printf "\033[32;1m--- [Zapret] all completed..\033[0m\n"
 
 
