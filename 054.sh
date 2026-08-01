@@ -1,5 +1,5 @@
 #!/bin/sh
-  
+   
 #chmod +x /tmp/054.sh && /tmp/054.sh
 printf "\033[32;1m--- [Cron] start install or update..\033[0m\n"
 cronTask="10 4 * * * sh <(wget --no-check-certificate -q -O - https://raw.githubusercontent.com/WebMaster/Routers_3000/refs/heads/main/054.sh) 2>&1 | tee /root/run.log"
