@@ -65,4 +65,4 @@ printf "\033[32;1m--- [Zapret] all completed..\033[0m\n"
 
 printf "\033[32;1mScript run complete...\033[0m\n"
 #printf "\033[31;1mAUTOREBOOT ROUTER...\033[0m\n"
-#reboot
+reboot
