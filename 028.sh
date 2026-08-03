@@ -9,6 +9,8 @@ opkg update
 
 
 printf "\n\033[32;1m--- [Zapret] start install or update..\033[0m\n"
+echo '1' | sh <(wget -O - https://raw.githubusercontent.com/StressOzz/Zapret-Manager/main/Zapret-Manager.sh)
+sleep 5
 echo 'f' | sh <(wget -O - https://raw.githubusercontent.com/StressOzz/Zapret-Manager/main/Zapret-Manager.sh)
 printf "\033[32;1m--- [Zapret] all completed..\033[0m\n"
 
